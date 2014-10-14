@@ -24,9 +24,15 @@ namespace ewmc
 			Lexer.VerbosityLevel verbosity = Lexer.VerbosityLevel.Basic;
 
 			// Check the command-line arguments
-			int i;
-			for (i = 0; i < args.Length - 1; i++) {
+			for (int i = 0; i < args.Length; i++) {
 				switch (args [i]) {
+
+				// Input file name
+				case "-i":
+				case "--input":
+					if (args.Length >= ++i)
+						input = args [i];
+					break;
 
 				// Output file name
 				case "-o":
@@ -63,18 +69,16 @@ namespace ewmc
 				
 				// Undefined/Unsupported argument
 				default:
-					Console.WriteLine ("ERROR: Unsupported argument '{0}'", args [i]);
+					Console.WriteLine ("Warning: Unsupported argument '{0}'", args [i]);
 					break;
 				}
 			}
 
 			// Check if the user provided an input file
-			if (args.Length - 1 < ++i || string.IsNullOrEmpty (args [i].Trim ())) {
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine ("No input file! Aborting.");
+			if (input == "") {
+				Console.WriteLine ("Please specify an input file!\n\nUsage: ewmc -i [input]");
 				return;
 			}
-			input = args [++i];
 
 			// Check if the user provided an output file
 			// If not, set the output file to {input_file_name_without_extension}.html
