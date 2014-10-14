@@ -28,11 +28,6 @@ namespace owl
 
 		public void Build ()
 		{
-			Console.Write ("".PadRight (Console.WindowWidth, '='));
-			Console.WriteLine ("Code Generation");
-			Console.Write ("".PadRight (Console.WindowWidth, '='));
-			Console.WriteLine ("Generating HTML code...");
-
 			Stopwatch watch = new Stopwatch ();
 			watch.Start ();
 
@@ -57,7 +52,7 @@ namespace owl
 			TagClose ();
 
 			watch.Stop ();
-			Console.WriteLine ("Code Generation finished after {0}ms", watch.Elapsed.Milliseconds);
+			Log.Write ("Code Generation finished after {0}ms", watch.Elapsed.Milliseconds);
 		}
 
 		public void TestCase ()
@@ -78,30 +73,7 @@ namespace owl
 
 		public void Beautify ()
 		{
-			Console.Write ("\n" + "".PadRight (Console.WindowWidth, '='));
-			Console.WriteLine ("Tidying up HTML...");
-			Console.Write ("".PadRight (Console.WindowWidth, '='));
-
-			Tidy tidy = new Tidy ();
-			tidy.Options.CharEncoding = CharEncoding.UTF8;
-			tidy.Options.SmartIndent = true;
-			tidy.Options.FixComments = true;
-			tidy.Options.TidyMark = false;
-			tidy.Options.UpperCaseTags = false;
-			tidy.Options.UpperCaseAttrs = false;
-			tidy.Options.MakeClean = true;
-			tidy.Options.BreakBeforeBR = false;
-			tidy.Options.DropEmptyParas = false;
-			TidyMessageCollection msg = new TidyMessageCollection ();
-			using (MemoryStream msin = new MemoryStream ()) {
-				byte[] bytes = Encoding.UTF8.GetBytes (output);
-				msin.Write (bytes, 0, bytes.Length);
-				msin.Position = 0;
-				using (MemoryStream msout = new MemoryStream ()) {
-					tidy.Parse (msin, msout, msg);
-					output = Encoding.UTF8.GetString (msout.ToArray ());
-				}
-			}
+			output = Beautifier.Beautify (output);
 		}
 
 		public void Serialize (string path)

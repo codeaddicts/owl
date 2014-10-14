@@ -71,10 +71,6 @@ namespace owl
 
 		public ErrorCode Scan ()
 		{
-			Console.Write ("\n" + "".PadRight (Console.WindowWidth, '='));
-			Console.WriteLine ("Lexical Analysis");
-			Console.Write ("".PadRight (Console.WindowWidth, '='));
-
 			Log.Write ("Processing file '{0}'", Path.GetFileName (filename));
 
 			Stopwatch watch = new Stopwatch ();
@@ -184,7 +180,7 @@ namespace owl
 			tokens.Add (new TokenEOF (line));
 
 			watch.Stop ();
-			Console.WriteLine ("Lexical Analysis finished after {0}ms", watch.Elapsed.Milliseconds);
+			Log.Write ("Lexical Analysis finished after {0}ms", watch.Elapsed.Milliseconds);
 
 			return ErrorCode.NoErrors;
 		}

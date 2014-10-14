@@ -9,7 +9,7 @@ namespace owl
 		{
 			if ((int)Verbosity.verb >= (int)verb) {
 				string verbosity = Enum.GetName (typeof (VerbosityLevel), Verbosity.verb);
-				writer.Write ("[{0}] {1}", verbosity, str);
+				writer.WriteLine ("[{0}] {1}", verbosity, str);
 			}
 		}
 
@@ -17,7 +17,7 @@ namespace owl
 		{
 			if ((int)Verbosity.verb >= (int)verb) {
 				string verbosity = Enum.GetName (typeof (VerbosityLevel), Verbosity.verb);
-				writer.Write ("[{0}] {1}", verbosity, string.Format (str, args));
+				writer.WriteLine ("[{0}] {1}", verbosity, string.Format (str, args));
 			}
 		}
 

@@ -61,6 +61,7 @@
     <Compile Include="Tokens\TokenEscape.cs" />
     <Compile Include="Verbosity.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="Beautifier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

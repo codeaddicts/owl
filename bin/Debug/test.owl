@@ -1,6 +1,6 @@
 head 
 {
-	title { "Extended Web Markup Language" }
+	title { "owl Markup" }
 	meta (author = "splitty");
 	link (rel = "stylesheet" type="text/css" href="test.css");
 }
@@ -8,7 +8,7 @@ head
 document
 {
 	div (class = "navbar") {
-		h1 { "Extended Web Markup" }
+		h1 { "owl" }
 		div (class = "navbar_inner") {
 			ul {
 				li { a (href="#") { "Home" } }
@@ -17,10 +17,10 @@ document
 		}
 	}
 	div (class = "content") {
-		h2 {" Welcome to the Extended Web Markup Language! "}
+		h2 {" Welcome to owl! "}
 		p {"
-			Extended Web Markup is a new language to describe websites, which compiles into HTML code.\n
-			This page is written in EWML!
+			owl is an awesome HTML preprocessor.\n
+			This page is written in owl Markup!
 		"}
 	}
 }

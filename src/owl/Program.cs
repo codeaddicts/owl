@@ -7,12 +7,6 @@ namespace owl
 	{
 		public static void Main (string[] args)
 		{
-			// Welcome message
-			Console.Clear ();
-			Console.Write ("".PadRight (Console.WindowWidth, '='));
-			Console.WriteLine ("owl preprocessor");
-			Console.Write ("".PadRight (Console.WindowWidth, '='));
-
 			// Fields
 			string input = "";
 			string output = "";
@@ -87,8 +81,6 @@ namespace owl
 			lexer.Prepare ();
 			Lexer.ErrorCode error = lexer.Scan ();
 
-			Console.WriteLine ();
-
 			// Check for lexer errors
 			if ((int)error > 0) {
 				Log.Error ("The compilation didn't finish. Error: {0}", Enum.GetName (typeof(Lexer.ErrorCode), error));
@@ -109,6 +101,8 @@ namespace owl
 
 			// Write the html code to disk
 			generator.Serialize (output);
+
+			Log.Write ("Done!");
 		}
 	}
 }
