@@ -11,7 +11,7 @@ This is why owl is _probably_ better than HTML:
 
 The following is an example of how owl markup looks like and what HTML code it generates.
 Input (owl markup):
-````
+```c
 head {
    title { Hello! }
    link ( rel = "stylesheet" href = "example.css" );
@@ -25,10 +25,10 @@ document {
          a ( href = "https://gihub.com/SplittyDev/ewm" ) { owl on GitHub }
    }
 }
-````
+```
 
 Output (HTML):
-````
+```html
 <!DOCTYPE html public>
 
 <html>
