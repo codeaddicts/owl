@@ -1,0 +1,4 @@
+C:\Users\SplittyDev\Desktop\Coding\git\ewm\bin\Debug\owl.exe
+C:\Users\SplittyDev\Desktop\Coding\git\ewm\bin\Debug\owl.pdb
+C:\Users\SplittyDev\Desktop\Coding\git\ewm\src\ewmc\obj\x86\Debug\owl.exe
+C:\Users\SplittyDev\Desktop\Coding\git\ewm\src\ewmc\obj\x86\Debug\owl.pdb

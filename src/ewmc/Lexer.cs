@@ -6,7 +6,7 @@ using System.Text;
 using System.Linq;
 using System.Diagnostics;
 
-namespace ewmc
+namespace owl
 {
 	public partial class Lexer
 	{
@@ -322,67 +322,6 @@ namespace ewmc
 				return ErrorCode.UnexpectedEscape;
 			}
 			return ErrorCode.NoErrors;
-		}
-
-		public void ScanContentOld ()
-		{
-			// Content
-			StringBuilder sb = new StringBuilder ();
-
-			while (true) {
-				if (Peek () == -1)
-					break;
-
-				bool abort = false;
-
-				char c = ReadChar ();
-				sb.Append (c);
-
-				switch (c) {
-				case '(':
-				case '{':
-					sb = sb.Remove (sb.Length - 2, 1);
-
-					while (sb.ToString ().Last () == ' ') {
-						pos -= 1;
-						sb = sb.Remove (sb.Length - 2, 1);
-					}
-
-					string str = sb.ToString ();
-					int ident = str.Contains (" ") ? str.LastIndexOf (' ') + 1 : 0;
-					sb = sb.Remove (ident, str.Length - ident);
-
-					bool isIdent = true;
-					for (int i = 0; i < ident; i++) {
-						if (!char.IsLetter (PeekChar ()) || PeekChar () != '_') {
-							isIdent = false;
-						}
-						Read ();
-					}
-
-					if (isIdent) {
-						LogElem ("Content");
-						tokens.Add (new TokenContent (sb.ToString (), line));
-						pos -= ident;
-						abort = true;
-					}
-					else {
-						sb.Append (ident);
-						pos++;
-					}
-
-					break;
-				case '}':
-					sb = sb.Remove (sb.Length - 2, 1);
-					pos--;
-					abort = true;
-
-					break;
-				}
-
-				if (abort)
-					break;
-			}
 		}
 
 		public int Peek ()

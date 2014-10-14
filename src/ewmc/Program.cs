@@ -4,7 +4,7 @@ using System.IO;
 /// <summary>
 /// Enhanced Web Markup Compiler
 /// </summary>
-namespace ewmc
+namespace owl
 {
 	class MainClass
 	{
@@ -13,7 +13,7 @@ namespace ewmc
 			// Welcome message
 			Console.Clear ();
 			Console.Write ("".PadRight (Console.WindowWidth, '='));
-			Console.WriteLine ("Enhanced Web Markup Compiler");
+			Console.WriteLine ("owl preprocessor");
 			Console.Write ("".PadRight (Console.WindowWidth, '='));
 
 			// Fields

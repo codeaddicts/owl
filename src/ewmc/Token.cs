@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ewmc
+namespace owl
 {
 	public abstract class Token
 	{
