@@ -1,0 +1,26 @@
+head 
+{
+	title { "Extended Web Markup Language" }
+	meta (author = "splitty");
+	link (rel = "stylesheet" type="text/css" href="test.css");
+}
+
+document
+{
+	div (class = "navbar") {
+		h1 { "Extended Web Markup" }
+		div (class = "navbar_inner") {
+			ul {
+				li { a (href="#") { "Home" } }
+				li { a (href="#") { "Syntax" } }
+			}
+		}
+	}
+	div (class = "content") {
+		h2 {" Welcome to the Extended Web Markup Language! "}
+		p {"
+			Extended Web Markup is a new language to describe websites, which compiles into HTML code.\n
+			This page is written in EWML!
+		"}
+	}
+}
