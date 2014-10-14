@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<stetic-interface>
+  <action-group name="owl.VerbosityLevel" />
+</stetic-interface>

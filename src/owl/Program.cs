@@ -1,9 +1,6 @@
 ﻿using System;
 using System.IO;
 
-/// <summary>
-/// Enhanced Web Markup Compiler
-/// </summary>
 namespace owl
 {
 	class MainClass
@@ -21,7 +18,7 @@ namespace owl
 			string output = "";
 			bool build_tree = false;
 			bool beautify = true;
-			Lexer.VerbosityLevel verbosity = Lexer.VerbosityLevel.Basic;
+			Verbosity.verb = VerbosityLevel.Basic;
 
 			// Check the command-line arguments
 			for (int i = 0; i < args.Length; i++) {
@@ -47,13 +44,13 @@ namespace owl
 				case "--verbosity":
 					if (args.Length >= ++i) {
 						if (args [i].StartsWith ("-")) {
-							verbosity = Lexer.VerbosityLevel.Debug;
+							Verbosity.verb = VerbosityLevel.Debug;
 							i--;
 							break;
 						}
-						Lexer.VerbosityLevel verb;
-						if (Enum.TryParse<Lexer.VerbosityLevel> (args [i], out verb))
-							verbosity = verb;
+						VerbosityLevel verb;
+						if (Enum.TryParse<VerbosityLevel> (args [i], out verb))
+							Verbosity.verb = verb;
 					}
 					break;
 
@@ -69,14 +66,14 @@ namespace owl
 				
 				// Undefined/Unsupported argument
 				default:
-					Console.WriteLine ("Warning: Unsupported argument '{0}'", args [i]);
+					Log.Warning ("Unsupported argument '{0}'", args [i]);
 					break;
 				}
 			}
 
 			// Check if the user provided an input file
 			if (input == "") {
-				Console.WriteLine ("Please specify an input file!\n\nUsage: ewmc -i [input]");
+				Log.Error ("Please specify an input file!\n\nUsage: owl -i [input]");
 				return;
 			}
 
@@ -86,8 +83,7 @@ namespace owl
 				output = string.Format ("{0}.html", Path.GetFileNameWithoutExtension (input));
 
 			// Do the lexical analysis
-			Lexer lexer = new Lexer ();
-			lexer.Configure (filename: input, verbosity: verbosity);
+			Lexer lexer = new Lexer (input);
 			lexer.Prepare ();
 			Lexer.ErrorCode error = lexer.Scan ();
 
@@ -95,11 +91,11 @@ namespace owl
 
 			// Check for lexer errors
 			if ((int)error > 0) {
-				Console.WriteLine ("The compilation didn't finish. Error: {0}", Enum.GetName (typeof(Lexer.ErrorCode), error));
+				Log.Error ("The compilation didn't finish. Error: {0}", Enum.GetName (typeof(Lexer.ErrorCode), error));
 				return;
 			}
 
-			// Build the tree if the -t/--tree argument given
+			// Build the tree if the --tree argument is given
 			if (build_tree)
 				lexer.BuildTree ();
 

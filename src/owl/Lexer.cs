@@ -10,8 +10,6 @@ namespace owl
 {
 	public partial class Lexer
 	{
-		private bool configured;
-
 		private string filename;
 		private string source;
 
@@ -21,19 +19,16 @@ namespace owl
 		private int linew;
 		private List<Token> tokens;
 
-		public enum VerbosityLevel { ErrorOnly, Basic, Debug }
-		public VerbosityLevel Verbosity;
-
 		public enum ErrorCode { NoErrors = 0, UnexpectedToken, UnexpectedEscape }
 
-		public Lexer ()
+		public Lexer (string filename)
 		{
 			pos = -1;
 			line = 1;
 			depth = 0;
 			linew = 0;
-			configured = false;
 			tokens = new List<Token> ();
+			this.filename = filename;
 		}
 
 		public List<Token> GetTokens ()
@@ -41,39 +36,29 @@ namespace owl
 			return tokens;
 		}
 
-		public void Configure (string filename = "", VerbosityLevel verbosity = VerbosityLevel.Basic)
-		{
-			if (filename != "")
-				this.filename = filename;
-
-			this.Verbosity = verbosity;
-
-			configured = true;
-		}
-
 		public void Prepare ()
 		{
-			Log ("Reading file '{0}'", Path.GetFileName (filename));
+			Log.Write ("Reading file '{0}'", Path.GetFileName (filename));
 
-			if (!configured) {
-				Console.WriteLine ("ERROR: Missing lexer configuration!");
-				return;
-			}
-
+			// Ensure that the filename has the right format
 			filename = Path.GetFullPath (filename);
 
+			// Check if the input file exists
 			if (!File.Exists (filename)) {
-				Console.WriteLine ("ERROR: File not found!\n\tFile: '{0}'", filename);
+				Log.Error ("File not found!\n\tFile: '{0}'", filename);
 				return;
 			}
 
 			using (FileStream file = new FileStream (filename, FileMode.Open, FileAccess.Read, FileShare.Read)) {
 				using (StreamReader reader = new StreamReader (file)) {
 					this.source = reader.ReadToEnd ();
-					ConvertLineEndings ();
 				}
 			}
 
+			// Replace line endings with linux-style line endings
+			source = source.Replace ("\r\n", "\n");
+
+			// Get the "length" of the line count
 			source.All (c => { if (c == '\n') linew++; return true; });
 			linew = (linew + 1).ToString ().Length;
 		}
@@ -90,7 +75,7 @@ namespace owl
 			Console.WriteLine ("Lexical Analysis");
 			Console.Write ("".PadRight (Console.WindowWidth, '='));
 
-			Log ("Processing file '{0}'", Path.GetFileName (filename));
+			Log.Write ("Processing file '{0}'", Path.GetFileName (filename));
 
 			Stopwatch watch = new Stopwatch ();
 			watch.Start ();
@@ -190,7 +175,7 @@ namespace owl
 						}
 						break;
 					default:
-						Error ("Unexpected token: '{0}' at line {1}. Aborting.", PeekChar (), line);
+						Log.Error ("Unexpected token: '{0}' at line {1}. Aborting.", PeekChar (), line);
 						watch.Stop ();
 						return ErrorCode.UnexpectedToken;
 					}
@@ -318,7 +303,7 @@ namespace owl
 				LogElem ("Escape: Quote");
 				break;
 			default:
-				Error ("Unexpected escape character: '{0}' at line {1}. Aborting.", PeekChar (), line);
+				Log.Error ("Unexpected escape character: '{0}' at line {1}. Aborting.", PeekChar (), line);
 				return ErrorCode.UnexpectedEscape;
 			}
 			return ErrorCode.NoErrors;
@@ -344,42 +329,9 @@ namespace owl
 			return (char)Read ();
 		}
 
-		public void Log (VerbosityLevel verb, string str, params object[] args)
-		{
-			if ((int)Verbosity >= (int)verb)
-				Console.WriteLine ("[{0}] {1}",
-					Enum.GetName (typeof(VerbosityLevel), Verbosity),
-					string.Format (str, args));
-		}
-
-		public void Log (string str, params object[] args)
-		{
-			Log (VerbosityLevel.Basic, str, args);
-		}
-
 		public void LogElem (string text)
 		{
-			Debug ("D:{1:00} L:{0:" + "".PadRight (linew, '0') + "} {2}", line, depth, text);
-		}
-
-		public void Debug (string str, params object[] args)
-		{
-			Log (VerbosityLevel.Debug, str, args);
-		}
-
-		public void Error (string str, params object[] args)
-		{
-			ConsoleColor color = Console.ForegroundColor;
-			Console.ForegroundColor = ConsoleColor.Red;
-			Log (VerbosityLevel.ErrorOnly, str, args);
-			Console.ForegroundColor = color;
-		}
-
-		public void ConvertLineEndings ()
-		{
-			Log ("Converting line endings to Linux");
-
-			source = source.Replace ("\r\n", "\n");
+			Log.Debug ("D:{1:00} L:{0:" + "".PadRight (linew, '0') + "} {2}", line, depth, text);
 		}
 	}
 }

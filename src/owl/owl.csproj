@@ -59,6 +59,8 @@
     <Compile Include="Tokens\TokenCurlyClosing.cs" />
     <Compile Include="Tokens\TokenSemicolon.cs" />
     <Compile Include="Tokens\TokenEscape.cs" />
+    <Compile Include="Verbosity.cs" />
+    <Compile Include="Log.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
