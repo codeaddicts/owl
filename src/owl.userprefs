@@ -1,10 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ewmc\Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="owl\Program.cs">
     <Files>
-      <File FileName="ewmc\Program.cs" Line="40" Column="40" />
-      <File FileName="ewmc\Lexer.cs" Line="28" Column="28" />
-      <File FileName="ewmc\CodeGen.cs" Line="7" Column="7" />
+      <File FileName="owl\Program.cs" Line="40" Column="40" />
+      <File FileName="owl\Lexer.cs" Line="28" Column="28" />
+      <File FileName="owl\CodeGen.cs" Line="7" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
