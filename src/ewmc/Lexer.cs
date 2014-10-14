@@ -11,8 +11,6 @@ namespace ewmc
 	public partial class Lexer
 	{
 		private bool configured;
-		private bool tag_locked;
-		private bool tag_identified;
 
 		private string filename;
 		private string source;
@@ -21,7 +19,6 @@ namespace ewmc
 		private int line;
 		private int depth;
 		private int linew;
-		private int tag_depth;
 		private List<Token> tokens;
 
 		public enum VerbosityLevel { ErrorOnly, Basic, Debug }
@@ -35,8 +32,6 @@ namespace ewmc
 			line = 1;
 			depth = 0;
 			linew = 0;
-			tag_depth = 0;
-			tag_locked = false;
 			configured = false;
 			tokens = new List<Token> ();
 		}
@@ -104,32 +99,6 @@ namespace ewmc
 				while (PeekChar () != '\n' && char.IsWhiteSpace (PeekChar ()))
 					Read ();
 
-				if (tag_locked == true) {
-					StringBuilder sb = new StringBuilder ();
-					while (true) {
-						switch (PeekChar ()) {
-						case '\n':
-							line++;
-							break;
-						case '{':
-							depth++;
-							break;
-						case '}':
-							depth--;
-							break;
-						}
-						if (depth == tag_depth - 1) {
-							tag_locked = false;
-							tag_depth = 0;
-							LogElem ("Style Block");
-							tokens.Add (new TokenStyleBlock (sb.ToString (), line));
-							break;
-						}
-						else
-							sb.Append (ReadChar ());
-					}
-				}
-
 				// Newline
 				if (PeekChar () == '\n') {
 					while (PeekChar () == '\n') {
@@ -148,11 +117,6 @@ namespace ewmc
 				// Identifiers
 				else if (char.IsLetter (PeekChar ())) {
 					string ident = ScanIdentifier ();
-
-					// Prepare for css block beginning
-					if (ident == "style" || ident == "script") {
-						tag_identified = true;
-					}
 				}
 
 				// Syntax elements
