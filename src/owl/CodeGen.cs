@@ -31,7 +31,7 @@ namespace owl
 			Stopwatch watch = new Stopwatch ();
 			watch.Start ();
 
-			AppendXML ("doctype html public");
+			AppendXML ("doctype html");
 			TagOpen ("html");
 			TagAttribClose ();
 
