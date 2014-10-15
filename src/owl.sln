@@ -3,18 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "owl", "owl\owl.csproj", "{7A93F1AB-9E71-4872-98FC-A15E163E3D29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "owledit", "owledit\owledit.csproj", "{1872A802-0B67-40AC-A082-57BAF944B323}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1872A802-0B67-40AC-A082-57BAF944B323}.Debug|x86.ActiveCfg = Debug|x86
+		{1872A802-0B67-40AC-A082-57BAF944B323}.Debug|x86.Build.0 = Debug|x86
+		{1872A802-0B67-40AC-A082-57BAF944B323}.Release|x86.ActiveCfg = Release|x86
+		{1872A802-0B67-40AC-A082-57BAF944B323}.Release|x86.Build.0 = Release|x86
 		{7A93F1AB-9E71-4872-98FC-A15E163E3D29}.Debug|x86.ActiveCfg = Debug|x86
 		{7A93F1AB-9E71-4872-98FC-A15E163E3D29}.Debug|x86.Build.0 = Debug|x86
 		{7A93F1AB-9E71-4872-98FC-A15E163E3D29}.Release|x86.ActiveCfg = Release|x86
 		{7A93F1AB-9E71-4872-98FC-A15E163E3D29}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = owl\owl.csproj
+		StartupItem = owledit\owledit.csproj
 	EndGlobalSection
 EndGlobal
