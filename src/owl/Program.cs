@@ -12,7 +12,7 @@ namespace owl
 			string output = "";
 			bool build_tree = false;
 			bool beautify = true;
-			bool validate = true;
+			bool validate = false;
 			Verbosity.verb = VerbosityLevel.Basic;
 
 			// Check the command-line arguments
