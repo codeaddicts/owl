@@ -18,11 +18,18 @@ namespace owl
 		{
 			this.output = "";
 			this.tokens = tokens;
+
+			// Remove all EndOfLine tokens
 			this.tokens.RemoveAll (t => t is TokenEOL);
+
+			// This may look like a ugly and hacky solution
+			// It indeed IS a ugly and hacky solution
+			// But who cares? It works!
 			this.tokens.Add (new TokenEOF (0));
 			this.tokens.Add (new TokenEOF (0));
 			this.tokens.Add (new TokenEOF (0));
 			this.tokens.Add (new TokenEOF (0));
+
 			this.tags = new Stack<string> ();
 		}
 
@@ -53,22 +60,6 @@ namespace owl
 
 			watch.Stop ();
 			Log.Write ("Code Generation finished after {0}ms", watch.Elapsed.Milliseconds);
-		}
-
-		public void TestCase ()
-		{
-			AppendXML ("doctype html public");
-			TagOpen ("html");
-			TagAttribClose ();
-			TagOpen ("head");
-			TagAttribClose ();
-			TagOpen ("meta");
-			TagAttribAdd ("author");
-			TagAttribAssign ();
-			TagAttribValue ("splitty");
-			TagAttribCloseTag ();
-			TagClose ();
-			TagClose ();
 		}
 
 		public void Beautify ()

@@ -21,6 +21,12 @@ namespace owl
 
 		public enum ErrorCode { NoErrors = 0, UnexpectedToken, UnexpectedEscape }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="owl.Lexer"/> class.
+		/// </summary>
+		/// <param name='filename'>
+		/// Filename.
+		/// </param>
 		public Lexer (string filename)
 		{
 			pos = -1;
@@ -31,11 +37,20 @@ namespace owl
 			this.filename = filename;
 		}
 
+		/// <summary>
+		/// Returns the token list.
+		/// </summary>
+		/// <returns>
+		/// The tokens.
+		/// </returns>
 		public List<Token> GetTokens ()
 		{
 			return tokens;
 		}
 
+		/// <summary>
+		/// Prepare the Lexer for scanning.
+		/// </summary>
 		public void Prepare ()
 		{
 			Log.Write ("Reading file '{0}'", Path.GetFileName (filename));
@@ -63,12 +78,21 @@ namespace owl
 			linew = (linew + 1).ToString ().Length;
 		}
 
+		/// <summary>
+		/// Builds the token tree.
+		/// </summary>
 		public void BuildTree ()
 		{
 			Tree tree = new Tree (tokens);
 			tree.Build ();
 		}
 
+		/// <summary>
+		/// Scans the source for tokens.
+		/// </summary>
+		/// <returns>
+		/// An ErrorCode.
+		/// </returns>
 		public ErrorCode Scan ()
 		{
 			Log.Write ("Processing file '{0}'", Path.GetFileName (filename));
@@ -143,16 +167,22 @@ namespace owl
 							return err0;
 						}
 						break;
+						
+					// Assign
 					case '=':
 						Read ();
 						LogElem ("Assign");
 						tokens.Add (new TokenAssign (line));
 						break;
+						
+					// Comma
 					case ',':
 						Read ();
 						LogElem ("Comma");
 						tokens.Add (new TokenComma (line));
 						break;
+						
+					// Semicolon
 					case ';':
 						Read ();
 						LogElem ("Semicolon");
@@ -163,6 +193,8 @@ namespace owl
 							return err1;
 						}
 						break;
+						
+					// Backslash
 					case '\\':
 						ErrorCode err2 = ScanEscape ();
 						if (err2 != ErrorCode.NoErrors) {
@@ -170,6 +202,8 @@ namespace owl
 							return err2;
 						}
 						break;
+						
+					// Default
 					default:
 						Log.Error ("Unexpected token: '{0}' at line {1}. Aborting.", PeekChar (), line);
 						watch.Stop ();
@@ -185,6 +219,12 @@ namespace owl
 			return ErrorCode.NoErrors;
 		}
 
+		/// <summary>
+		/// Scans an identifier.
+		/// </summary>
+		/// <returns>
+		/// The identifier.
+		/// </returns>
 		public string ScanIdentifier ()
 		{
 			StringBuilder sb = new StringBuilder ();
@@ -200,6 +240,9 @@ namespace owl
 			return str;
 		}
 
+		/// <summary>
+		/// Scans a string literal.
+		/// </summary>
 		public void ScanStringLiteral ()
 		{
 			Read ();
@@ -214,6 +257,12 @@ namespace owl
 			tokens.Add (new TokenString (sb.ToString (), line));
 		}
 
+		/// <summary>
+		/// Scans content.
+		/// </summary>
+		/// <returns>
+		/// An ErrorCode
+		/// </returns>
 		public ErrorCode ScanContent ()
 		{
 			while (char.IsWhiteSpace (PeekChar ())) {
@@ -251,53 +300,88 @@ namespace owl
 			return ErrorCode.NoErrors;
 		}
 
+		/// <summary>
+		/// Scans an escape sequence.
+		/// </summary>
+		/// <returns>
+		/// An ErrorCode
+		/// </returns>
 		public ErrorCode ScanEscape ()
 		{
 			string str;
 			return ScanEscape (out str);
 		}
 
+		/// <summary>
+		/// Scans an escape sequence.
+		/// </summary>
+		/// <returns>
+		/// An ErrorCode
+		/// </returns>
+		/// <param name='escape'>
+		/// Output variable for the escape sequence
+		/// </param>
 		public ErrorCode ScanEscape (out string escape)
 		{
 			Read ();
 			escape = "";
 			switch (PeekChar ()) {
+			// Newline
 			case 'n':
 				Read ();
 				escape = "<br/>\n";
 				LogElem ("Escape: Newline");
 				break;
-
+				
+			// Tab
 			case 't':
 				Read ();
 				escape = "&nbsp;&nbsp;&nbsp;";
 				LogElem ("Escape: Tab");
 				break;
+				
+			// Opening Curly Bracket
 			case '{':
 				Read ();
 				escape = "{";
 				LogElem ("Escape: Opening Curly Bracket");
 				break;
+				
+			// Closing Curly Bracket
 			case '}':
 				Read ();
 				escape = "}";
 				LogElem ("Escape: Closing Curly Bracket");
 				break;
+				
+			// Opening Parenthesis
 			case '(':
 				Read ();
 				escape = "(";
 				LogElem ("Escape: Opening Parenthesis");
 				break;
+				
+			// Closing Parenthesis
 			case ')':
 				Read ();
 				escape = ")";
 				LogElem ("Escape: Closing Parenthesis");
 				break;
+				
+			// Quote
 			case '\"':
 				Read ();
 				escape = "\"";
 				LogElem ("Escape: Quote");
 				break;
+				
+			// Apostrophe
+			case '\'':
+				Read ();
+				escape = "\'";
+				LogElem ("Escape: Apostrophe");
+				break;
+				
 			default:
 				Log.Error ("Unexpected escape character: '{0}' at line {1}. Aborting.", PeekChar (), line);
 				return ErrorCode.UnexpectedEscape;
@@ -305,26 +389,66 @@ namespace owl
 			return ErrorCode.NoErrors;
 		}
 
+		/// <summary>
+		/// Returns the next character from the source
+		/// or -1 if EOF.
+		/// </summary>
+		/// <returns>
+		/// The char.
+		/// </returns>
 		public int Peek ()
 		{
 			return pos < source.Length - 1 ? (int)source [pos + 1] : -1;
 		}
 
+		/// <summary>
+		/// Returns the next character from the source
+		/// or (char)0 if EOF.
+		/// </summary>
+		/// <returns>
+		/// The char.
+		/// </returns>
 		public char PeekChar ()
 		{
-			return (char)Peek ();
+			if (Peek () != -1)
+				return (char)Peek ();
+			else
+				return (char)0;
 		}
 
+		/// <summary>
+		/// Returns the next character from the source
+		/// or -1 if EOF and increments the position by one.
+		/// </summary>
+		/// <returns>
+		/// The char.
+		/// </returns>
 		public int Read ()
 		{
 			return pos < source.Length - 1 ? (int)source [++pos] : -1;
 		}
 
+		/// <summary>
+		/// Returns the next character from the source
+		/// or (char)0 if EOF and increments the position by one.
+		/// </summary>
+		/// <returns>
+		/// The char.
+		/// </returns>
 		public char ReadChar ()
 		{
-			return (char)Read ();
+			if (Peek () != -1)
+				return (char)Read ();
+			else
+				return (char)0;
 		}
 
+		/// <summary>
+		/// Adds an element to the log.
+		/// </summary>
+		/// <param name='text'>
+		/// Text.
+		/// </param>
 		public void LogElem (string text)
 		{
 			Log.Debug ("D:{1:00} L:{0:" + "".PadRight (linew, '0') + "} {2}", line, depth, text);

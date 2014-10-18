@@ -12,6 +12,7 @@ namespace owl
 			string output = "";
 			bool build_tree = false;
 			bool beautify = true;
+			bool validate = true;
 			Verbosity.verb = VerbosityLevel.Basic;
 
 			// Check the command-line arguments
@@ -58,6 +59,11 @@ namespace owl
 					beautify = false;
 					break;
 				
+				// Just validate the owl code?
+				case "--validate":
+					validate = true;
+					break;
+				
 				// Undefined/Unsupported argument
 				default:
 					Log.Warning ("Unsupported argument '{0}'", args [i]);
@@ -83,7 +89,19 @@ namespace owl
 
 			// Check for lexer errors
 			if ((int)error > 0) {
-				Log.Error ("The compilation didn't finish. Error: {0}", Enum.GetName (typeof(Lexer.ErrorCode), error));
+				if (validate)
+				{
+					Log.Write ("The owl code doesn't seem to be valid. Reason: {0}", Enum.GetName (typeof(Lexer.ErrorCode), error));
+					return;
+				}
+				else {
+					Log.Error ("The compilation didn't finish. Error: {0}", Enum.GetName (typeof(Lexer.ErrorCode), error));
+					return;
+				}
+			}
+
+			if (validate) {
+				Log.Write ("Woop! Your owl code seems to be valid!");
 				return;
 			}
 

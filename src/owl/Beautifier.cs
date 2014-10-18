@@ -7,11 +7,13 @@ namespace owl
 {
 	public static class Beautifier
 	{
-		public static Tidy tidy;
+		private static Tidy tidy;
+		private static TidyMessageCollection tidymsg;
 
 		static Beautifier ()
 		{
 			tidy = new Tidy ();
+			tidymsg = new TidyMessageCollection ();
 			Configure ();
 		}
 
@@ -35,13 +37,12 @@ namespace owl
 		{
 			string output;
 
-			TidyMessageCollection msg = new TidyMessageCollection ();
 			using (MemoryStream msin = new MemoryStream ()) {
 				byte[] bytes = Encoding.UTF8.GetBytes (input);
 				msin.Write (bytes, 0, bytes.Length);
 				msin.Position = 0;
 				using (MemoryStream msout = new MemoryStream ()) {
-					tidy.Parse (msin, msout, msg);
+					tidy.Parse (msin, msout, tidymsg);
 					output = Encoding.UTF8.GetString (msout.ToArray ());
 				}
 			}
