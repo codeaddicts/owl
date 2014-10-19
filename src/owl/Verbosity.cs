@@ -2,7 +2,7 @@
 
 namespace owl
 {
-	public enum VerbosityLevel { ErrorOnly, Warnings, Basic, Debug }
+	public enum VerbosityLevel { silent, erroronly, warnings, basic, debug }
 
 	public static class Verbosity
 	{

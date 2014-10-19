@@ -33,33 +33,33 @@ namespace owl
 
 		public static void Write (string str, params object[] args)
 		{
-			Write (Console.Out, VerbosityLevel.Basic, str, args);
+			Write (Console.Out, VerbosityLevel.basic, str, args);
 		}
 
 		public static void Debug (string str, params object[] args)
 		{
-			Write (Console.Out, VerbosityLevel.Debug, str, args);
+			Write (Console.Out, VerbosityLevel.debug, str, args);
 		}
 
 		public static void Warning (string str)
 		{
 			ConsoleColor color = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Yellow;
-			Write (Console.Out, VerbosityLevel.Warnings, str);
+			Write (Console.Out, VerbosityLevel.warnings, str);
 		}
 
 		public static void Warning (string str, params object[] args)
 		{
 			ConsoleColor color = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Yellow;
-			Write (Console.Out, VerbosityLevel.Warnings, str, args);
+			Write (Console.Out, VerbosityLevel.warnings, str, args);
 		}
 
 		public static void Error (string str)
 		{
 			ConsoleColor color = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Red;
-			Write (Console.Error, VerbosityLevel.ErrorOnly, str);
+			Write (Console.Error, VerbosityLevel.erroronly, str);
 			Console.ForegroundColor = color;
 		}
 
@@ -67,7 +67,7 @@ namespace owl
 		{
 			ConsoleColor color = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Red;
-			Write (Console.Error, VerbosityLevel.ErrorOnly, str, args);
+			Write (Console.Error, VerbosityLevel.erroronly, str, args);
 			Console.ForegroundColor = color;
 		}
 	}

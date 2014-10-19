@@ -13,7 +13,7 @@ namespace owl
 			bool build_tree = false;
 			bool beautify = true;
 			bool validate = false;
-			Verbosity.verb = VerbosityLevel.Basic;
+			Verbosity.verb = VerbosityLevel.basic;
 
 			// Check the command-line arguments
 			for (int i = 0; i < args.Length; i++) {
@@ -37,15 +37,18 @@ namespace owl
 				case "-v":
 				case "--verb":
 				case "--verbosity":
-					if (args.Length >= ++i) {
+					if (args.Length - 1 >= ++i) {
 						if (args [i].StartsWith ("-")) {
-							Verbosity.verb = VerbosityLevel.Debug;
+							Verbosity.verb = VerbosityLevel.debug;
 							i--;
 							break;
 						}
 						VerbosityLevel verb;
-						if (Enum.TryParse<VerbosityLevel> (args [i], out verb))
+						if (Enum.TryParse<VerbosityLevel> (args [i].ToLowerInvariant (), out verb))
 							Verbosity.verb = verb;
+					}
+					else {
+						Verbosity.verb = VerbosityLevel.debug;
 					}
 					break;
 
