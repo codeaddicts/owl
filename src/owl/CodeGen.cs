@@ -77,6 +77,14 @@ namespace owl
 			}
 		}
 
+		public void Serialize (Stream stream)
+		{
+			using (StreamWriter writer = new StreamWriter (stream)) {
+				writer.Write (output);
+				writer.Flush ();
+			}
+		}
+
 		private void ConstructTagOpening (ref int i)
 		{
 			string cur = tokens [i].ToString ();
