@@ -14,6 +14,7 @@ namespace owl
 			bool beautify = true;
 			bool validate = false;
 			bool stdout = false;
+			bool winfix = false;
 			Verbosity.verb = VerbosityLevel.basic;
 
 			// Check the command-line arguments
@@ -32,6 +33,12 @@ namespace owl
 					case "--output":
 						if (args.Length >= ++i)
 							output = args [i];
+						break;
+
+					// Convert line endings to \r\n
+					case "-w":
+					case "--winfix":
+						winfix = true;
 						break;
 
 					// Redirect output to standard out
@@ -131,11 +138,11 @@ namespace owl
 
 			// Write the htlm code to the standard output
 			if (stdout) {
-				generator.Serialize (Console.OpenStandardOutput ());
+				generator.Serialize (Console.OpenStandardOutput (), winfix? "\r\n" : null);
 			}
 			// Write the html code to disk
 			else {
-				generator.Serialize (output);
+				generator.Serialize (output, winfix? "\r\n" : null);
 			}
 
 			Log.Write ("Done!");

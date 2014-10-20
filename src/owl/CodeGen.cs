@@ -67,8 +67,12 @@ namespace owl
 			output = Beautifier.Beautify (output);
 		}
 
-		public void Serialize (string path)
+		public void Serialize (string path, string eolstyle = null)
 		{
+			if (eolstyle != null) {
+				output.Replace ("\n", eolstyle);
+			}
+
 			using (FileStream file = new FileStream (path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None)) {
 				using (StreamWriter writer = new StreamWriter (file)) {
 					writer.Write (output);
@@ -77,8 +81,12 @@ namespace owl
 			}
 		}
 
-		public void Serialize (Stream stream)
+		public void Serialize (Stream stream, string eolstyle = null)
 		{
+			if (eolstyle != null) {
+				output.Replace ("\n", eolstyle);
+			}
+
 			using (StreamWriter writer = new StreamWriter (stream)) {
 				writer.Write (output);
 				writer.Flush ();
