@@ -23,8 +23,7 @@ head {
 document {
    h1 { Welcome to the owl example page! }
    p {
-      "We hope you like it!\n
-       Visit our GitHub page: "
+      "We hope you like it!\nVisit our GitHub page: "
       a ( href = "https://gihub.com/SplittyDev/ewm" ) { "owl on GitHub!" }
    }
 }
