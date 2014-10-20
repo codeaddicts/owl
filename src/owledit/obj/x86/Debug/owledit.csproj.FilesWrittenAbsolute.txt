@@ -1,0 +1,5 @@
+/home/splittydev/Desktop/Coding/owl/src/owledit/obj/x86/Debug/owledit.gtk-gui.gui.stetic
+/home/splittydev/Desktop/Coding/owl/src/owledit/bin/Debug/owledit.exe.mdb
+/home/splittydev/Desktop/Coding/owl/src/owledit/bin/Debug/owledit.exe
+/home/splittydev/Desktop/Coding/owl/src/owledit/obj/x86/Debug/owledit.exe
+/home/splittydev/Desktop/Coding/owl/src/owledit/obj/x86/Debug/owledit.exe.mdb
