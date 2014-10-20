@@ -1,4 +1,6 @@
-owl preprocessor
+[![Build Status](https://travis-ci.org/SplittyDev/owl.svg?branch=master)](https://travis-ci.org/SplittyDev/owl)
+
+What is owl?
 ----
 
 owl is a html preprocessor which allows you to write websites using a syntax which is a bit like C.
@@ -11,6 +13,9 @@ This is why owl is _probably_ better than html:
 
 Yeah, we know: That's not that much.    
 That's why we are working hard to integrate more awesome features into the language!
+
+How does owl look?
+----
 
 The following is an example of how owl markup looks like and what html code it generates.    
 Input (owl markup):
