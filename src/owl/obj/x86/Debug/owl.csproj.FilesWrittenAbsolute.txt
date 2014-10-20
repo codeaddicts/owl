@@ -1,4 +1,0 @@
-/home/splittydev/Desktop/Coding/owl/bin/Debug/owl.exe.mdb
-/home/splittydev/Desktop/Coding/owl/bin/Debug/owl.exe
-/home/splittydev/Desktop/Coding/owl/src/owl/obj/x86/Debug/owl.exe
-/home/splittydev/Desktop/Coding/owl/src/owl/obj/x86/Debug/owl.exe.mdb

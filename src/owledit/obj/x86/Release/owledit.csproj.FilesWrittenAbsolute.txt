@@ -1,5 +1,0 @@
-/home/splittydev/Desktop/Coding/owl/src/owledit/obj/x86/Release/owledit.gtk-gui.gui.stetic
-/home/splittydev/Desktop/Coding/owl/src/owledit/bin/Release/owledit.exe.mdb
-/home/splittydev/Desktop/Coding/owl/src/owledit/bin/Release/owledit.exe
-/home/splittydev/Desktop/Coding/owl/src/owledit/obj/x86/Release/owledit.exe
-/home/splittydev/Desktop/Coding/owl/src/owledit/obj/x86/Release/owledit.exe.mdb
