@@ -9,12 +9,12 @@ This is why owl is _probably_ better than html:
 * Doesn't need ugly closing tags
 * Generates flawless HTML code in no-time
 
-Yeah, we know: That's not that much.   
+Yeah, we know: That's not that much.    
 That's why we are working hard to integrate more awesome features into the language!
 
-The following is an example of how owl markup looks like and what html code it generates.
+The following is an example of how owl markup looks like and what html code it generates.    
 Input (owl markup):
-```html
+```c#
 head {
    title { "Hello!" }
    link ( rel = "stylesheet" href = "example.css" );
