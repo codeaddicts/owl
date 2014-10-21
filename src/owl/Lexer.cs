@@ -19,7 +19,7 @@ namespace owl
 		private int linew;
 		private List<Token> tokens;
 
-		public enum ErrorCode { NoErrors = 0, UnexpectedToken, UnexpectedEscape }
+		public enum ErrorCode { NoErrors = 0, UnexpectedToken, UnexpectedEscape, UnexpectedStringEnd, UnexpectedContentEnd }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="owl.Lexer"/> class.
@@ -122,12 +122,17 @@ namespace owl
 
 				// String literals
 				else if (PeekChar () == '\"') {
-					ScanStringLiteral ();
+					ErrorCode err = ScanStringLiteral ();
+					if (err != ErrorCode.NoErrors)
+					{
+						watch.Stop ();
+						return err;
+					}
 				}
 
 				// Identifiers
 				else if (char.IsLetter (PeekChar ())) {
-					string ident = ScanIdentifier ();
+					ScanIdentifier ();
 				}
 
 				// Syntax elements
@@ -281,7 +286,7 @@ namespace owl
 		{
 			StringBuilder sb = new StringBuilder ();
 
-			while (char.IsLetterOrDigit (PeekChar ()) || PeekChar () == '_') {
+			while (char.IsLetterOrDigit (PeekChar ()) || PeekChar () == '_' || PeekChar () == '-') {
 				sb.Append (ReadChar ());
 			}
 			string str = sb.ToString ();
@@ -297,18 +302,24 @@ namespace owl
 		/// <summary>
 		/// Scans a string literal.
 		/// </summary>
-		public void ScanStringLiteral ()
+		public ErrorCode ScanStringLiteral ()
 		{
 			Read ();
 			StringBuilder sb = new StringBuilder ();
 
 			while (PeekChar () != '\"' && Peek () != -1) {
+				if (Peek () == -1) {
+					Log.Error ("StringLiteral not closed");
+					return ErrorCode.UnexpectedStringEnd;
+				}
 				sb.Append (ReadChar ());
 			}
 
 			Read ();
 			LogElem ("StringLiteral: " + sb.ToString ());
 			tokens.Add (new TokenString (sb.ToString (), line));
+
+			return ErrorCode.NoErrors;
 		}
 
 		/// <summary>
@@ -328,6 +339,10 @@ namespace owl
 				StringBuilder sb = new StringBuilder ();
 
 				while (PeekChar () != '"') {
+					if (Peek () == -1)
+					{
+						return ErrorCode.UnexpectedContentEnd;
+					}
 					if (PeekChar () == '\n') {
 						line++;
 						sb.Append (ReadChar ());
