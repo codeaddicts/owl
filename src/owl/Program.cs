@@ -142,7 +142,7 @@ namespace owl
 			}
 			// Write the html code to disk
 			else {
-				generator.Serialize (output, winfix? "\r\n" : null);
+				generator.Serialize (Path.GetFullPath (output), winfix? "\r\n" : null);
 			}
 
 			Log.Write ("Done!");

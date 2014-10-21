@@ -2,16 +2,15 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>owl</id>
-    <version>1.0.5407.34735</version>
+    <version>1.0.5407.37498</version>
     <title>owl</title>
     <authors>SplittyDev, Nikx</authors>
     <owners>SplittyDev</owners>
-    <licenseUrl>https://www.gnu.org/licenses/gpl-2.0-standalone.html</licenseUrl>
+    <licenseUrl>https://www.gnu.org/licenses/gpl-2.0.txt</licenseUrl>
     <projectUrl>https://github.com/splittydev/owl/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A html preprocessor which allows you to
-    write html code using a beautiful syntax</description>
-    <releaseNotes>Fixed possible memory leak, fixed issue #3</releaseNotes>
+    <description>A html preprocessor which allows you to write html code using a beautiful syntax</description>
+    <releaseNotes>Fixed TidyNet error which caused owl to create an empty output file</releaseNotes>
     <copyright></copyright>
     <tags>html preprocessor compiler lexer parser scanner tokenizer owl</tags>
     <frameworkAssemblies>

@@ -65,6 +65,7 @@ namespace owl
 		public void Beautify ()
 		{
 			output = Beautifier.Beautify (output);
+			Log.Debug ("[Beautifier] {0}", output);
 		}
 
 		public void Serialize (string path, string eolstyle = null)
@@ -262,7 +263,7 @@ namespace owl
 
 		private void TagAttribCloseTag ()
 		{
-			string tag = tags.Pop ();
+			tags.Pop ();
 			// Console.WriteLine ("Closing without body: {0}", tag);
 			// Append ("/>\n");
 			Append ("/>");
