@@ -1,0 +1,15 @@
+Example 1:
+   The basic owl structure
+   
+   Compile it: owl -i example1.owl
+
+Example 2:
+   Local file includes
+   
+   Compile it: owl -i example2.owl
+
+Example 2_2:
+   Is being included by Example 2
+   Escape characters and stuff
+
+Have fun!

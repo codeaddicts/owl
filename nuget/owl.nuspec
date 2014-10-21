@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>owl</id>
+    <version>1.0.5407.19640</version>
+    <title>owl</title>
+    <authors>SplittyDev, Nikx</authors>
+    <owners>SplittyDev</owners>
+    <licenseUrl>https://www.gnu.org/licenses/gpl-2.0-standalone.html</licenseUrl>
+    <projectUrl>https://github.com/splittydev/owl/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A html preprocessor</description>
+    <releaseNotes>Fixed package, fixed line width calculation function</releaseNotes>
+    <copyright></copyright>
+    <tags>html preprocessor compiler lexer parser scanner tokenizer owl</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="bin/TidyNet.dll" />
+    <file src="bin/owl.exe" />
+    <file src="content/*" target="example" />
+  </files>
+</package>

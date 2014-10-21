@@ -79,8 +79,8 @@ namespace owl
 
 		public int CalculateLineNumberWidth (string source) {
 			int width = 0;
-			source.All (c => { if (c == '\n') linew++; return true; });
-			width = (linew + 1).ToString ().Length;
+			source.All (c => { if (c == '\n') width++; return true; });
+			width = (width + 1).ToString ().Length;
 			return width;
 		}
 

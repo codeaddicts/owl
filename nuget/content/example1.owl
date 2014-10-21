@@ -1,0 +1,11 @@
+head {
+	title { "Example 1" }
+	meta (author = "splitty");
+}
+
+document {
+	h1 { "Example 1" }
+	p {
+		"Hello from owl!"
+	}
+}

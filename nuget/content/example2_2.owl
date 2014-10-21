@@ -1,0 +1,7 @@
+document {
+	h1 { "Example 2" }
+	p {"
+		Hello from owl\n
+		Includes are working too!
+	"}
+}

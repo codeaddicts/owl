@@ -1,0 +1,6 @@
+head {
+	title { "Example 2" }
+	meta (author = "splitty");
+}
+
+#include example2_2.owl
