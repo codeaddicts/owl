@@ -74,8 +74,14 @@ namespace owl
 			source = source.Replace ("\r\n", "\n");
 
 			// Get the "length" of the line count
+			linew = CalculateLineNumberWidth (source);
+		}
+
+		public int CalculateLineNumberWidth (string source) {
+			int width = 0;
 			source.All (c => { if (c == '\n') linew++; return true; });
-			linew = (linew + 1).ToString ().Length;
+			width = (linew + 1).ToString ().Length;
+			return width;
 		}
 
 		/// <summary>
@@ -127,87 +133,94 @@ namespace owl
 				// Syntax elements
 				else {
 					switch (PeekChar ()) {
-
-					// Opening Parenthesis
-					case '(':
-						Read ();
-						LogElem ("Opening Parenthesis");
-						tokens.Add (new TokenParOpening (line));
-						break;
-
-					// Closing Parenthesis
-					case ')':
-						Read ();
-						LogElem ("Closing Parenthesis");
-						tokens.Add (new TokenParClosing (line));
-						break;
 					
-					// Opening Curly Bracket
-					case '{':
-						depth++;
-						Read ();
-						LogElem ("Opening Curly Bracket");
-						tokens.Add (new TokenCurlyOpening (line));
-						ErrorCode err = ScanContent ();
-						if (err != ErrorCode.NoErrors) {
+						// Preprocessor Directive
+						case '#':
+							Read ();
+							LogElem ("Preprocessor Directive");
+							ScanPreprocessorDirective ();
+							break;
+
+						// Opening Parenthesis
+						case '(':
+							Read ();
+							LogElem ("Opening Parenthesis");
+							tokens.Add (new TokenParOpening (line));
+							break;
+
+						// Closing Parenthesis
+						case ')':
+							Read ();
+							LogElem ("Closing Parenthesis");
+							tokens.Add (new TokenParClosing (line));
+							break;
+							
+						// Opening Curly Bracket
+						case '{':
+							depth++;
+							Read ();
+							LogElem ("Opening Curly Bracket");
+							tokens.Add (new TokenCurlyOpening (line));
+							ErrorCode err = ScanContent ();
+							if (err != ErrorCode.NoErrors) {
+								watch.Stop ();
+								return err;
+							}
+							break;
+							
+						// Closing Curly Bracket
+						case '}':
+							depth--;
+							Read ();
+							LogElem ("Closing Curly Bracket");
+							tokens.Add (new TokenCurlyClosing (line));
+							ErrorCode err0 = ScanContent ();
+							if (err0 != ErrorCode.NoErrors) {
+								watch.Stop ();
+								return err0;
+							}
+							break;
+							
+						// Assign
+						case '=':
+							Read ();
+							LogElem ("Assign");
+							tokens.Add (new TokenAssign (line));
+							break;
+							
+						// Comma
+						case ',':
+							Read ();
+							LogElem ("Comma");
+							tokens.Add (new TokenComma (line));
+							break;
+							
+						// Semicolon
+						case ';':
+							Read ();
+							LogElem ("Semicolon");
+							tokens.Add (new TokenSemicolon (line));
+							ErrorCode err1 = ScanContent ();
+							if (err1 != ErrorCode.NoErrors) {
+								watch.Stop ();
+								return err1;
+							}
+							break;
+							
+						// Backslash
+						case '\\':
+							ErrorCode err2 = ScanEscape ();
+							if (err2 != ErrorCode.NoErrors) {
+								watch.Stop ();
+								return err2;
+							}
+							break;
+							
+						// Default
+						default:
+							Log.Error ("Unexpected token: '{0}' at line {1}. Aborting.", PeekChar (), line);
 							watch.Stop ();
-							return err;
-						}
-						break;
-					
-					// Closing Curly Bracket
-					case '}':
-						depth--;
-						Read ();
-						LogElem ("Closing Curly Bracket");
-						tokens.Add (new TokenCurlyClosing (line));
-						ErrorCode err0 = ScanContent ();
-						if (err0 != ErrorCode.NoErrors) {
-							watch.Stop ();
-							return err0;
-						}
-						break;
-						
-					// Assign
-					case '=':
-						Read ();
-						LogElem ("Assign");
-						tokens.Add (new TokenAssign (line));
-						break;
-						
-					// Comma
-					case ',':
-						Read ();
-						LogElem ("Comma");
-						tokens.Add (new TokenComma (line));
-						break;
-						
-					// Semicolon
-					case ';':
-						Read ();
-						LogElem ("Semicolon");
-						tokens.Add (new TokenSemicolon (line));
-						ErrorCode err1 = ScanContent ();
-						if (err1 != ErrorCode.NoErrors) {
-							watch.Stop ();
-							return err1;
-						}
-						break;
-						
-					// Backslash
-					case '\\':
-						ErrorCode err2 = ScanEscape ();
-						if (err2 != ErrorCode.NoErrors) {
-							watch.Stop ();
-							return err2;
-						}
-						break;
-						
-					// Default
-					default:
-						Log.Error ("Unexpected token: '{0}' at line {1}. Aborting.", PeekChar (), line);
-						watch.Stop ();
-						return ErrorCode.UnexpectedToken;
+							return ErrorCode.UnexpectedToken;
 					}
 				}
 			}
@@ -219,13 +232,52 @@ namespace owl
 			return ErrorCode.NoErrors;
 		}
 
+		public void SkipWhitespace ()
+		{
+			while (char.IsWhiteSpace (PeekChar ())) {
+				if (PeekChar () == '\n')
+					line++;
+				Read ();
+			}
+		}
+
+		public void ScanPreprocessorDirective ()
+		{
+			SkipWhitespace ();
+			string ident = ScanIdentifier (false);
+			SkipWhitespace ();
+
+			switch (ident)
+			{
+				case "include":
+					string path;
+					ScanContent (out path, false);
+					if (path != "" && File.Exists (Path.GetFullPath (path)))
+					{
+						LogElem ("Including file: " + path);
+						using (FileStream fs = new FileStream (Path.GetFullPath (path), FileMode.Open, FileAccess.Read, FileShare.Read))
+						{
+							using (StreamReader reader = new StreamReader (fs))
+							{
+								string str = reader.ReadToEnd ();
+								str = str.Replace ("\r\n", "\n");
+								AppendAt (str, pos + 1);
+								LogElem ("Contents: " + str);
+								linew = CalculateLineNumberWidth (source);
+							}
+						}
+					}
+					break;
+			}
+		}
+
 		/// <summary>
 		/// Scans an identifier.
 		/// </summary>
 		/// <returns>
 		/// The identifier.
 		/// </returns>
-		public string ScanIdentifier ()
+		public string ScanIdentifier (bool add_token = true)
 		{
 			StringBuilder sb = new StringBuilder ();
 
@@ -234,8 +286,10 @@ namespace owl
 			}
 			string str = sb.ToString ();
 
-			LogElem ("Identifier: " + str);
-			tokens.Add (new TokenIdentifier (str, line));
+			if (add_token) {
+				LogElem ("Identifier: " + str);
+				tokens.Add (new TokenIdentifier (str, line));
+			}
 
 			return str;
 		}
@@ -263,13 +317,10 @@ namespace owl
 		/// <returns>
 		/// An ErrorCode
 		/// </returns>
-		public ErrorCode ScanContent ()
+		public ErrorCode ScanContent (out string content, bool add_token = true)
 		{
-			while (char.IsWhiteSpace (PeekChar ())) {
-				if (PeekChar () == '\n')
-					line++;
-				Read ();
-			}
+			SkipWhitespace ();
+			content = "";
 
 			if (PeekChar () == '"') {
 				LogElem ("String Begin");
@@ -290,14 +341,27 @@ namespace owl
 						sb.Append (ReadChar ());
 					}
 				}
-				LogElem ("String Content: " + sb.ToString ());
-				LogElem ("String End");
 
 				Read ();
-				tokens.Add (new TokenContent (sb.ToString (), line));
+				if (add_token)
+				{
+					LogElem ("String Content: " + sb.ToString ());
+					LogElem ("String End");
+					tokens.Add (new TokenContent (sb.ToString (), line));
+				}
+				else
+				{
+					content = sb.ToString ();
+				}
 			}
 
 			return ErrorCode.NoErrors;
+		}
+
+		public ErrorCode ScanContent ()
+		{
+			string str;
+			return ScanContent (out str);
 		}
 
 		/// <summary>
@@ -441,6 +505,14 @@ namespace owl
 				return (char)Read ();
 			else
 				return (char)0;
+		}
+
+		public void AppendAt (string str, int pos)
+		{
+			StringBuilder sb = new StringBuilder ();
+			sb = sb.Append (source);
+			sb = sb.Insert (pos, str);
+			source = sb.ToString ();
 		}
 
 		/// <summary>
