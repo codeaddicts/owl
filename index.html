@@ -1,1 +1,95 @@
-Works. 
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Owl by AlexDigital</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Owl</h1>
+        <p class="header">owl - HTML Preprocessor</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/AlexDigital/owl/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/AlexDigital/owl/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/AlexDigital/owl">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/AlexDigital">AlexDigital</a></p>
+
+
+      </header>
+      <section>
+        <h2>
+<a name="owl-preprocessor" class="anchor" href="#owl-preprocessor"><span class="octicon octicon-link"></span></a>owl preprocessor</h2>
+
+<p>owl is a HTML preprocessor which allows you to write websites using a syntax which is a bit like C.</p>
+
+<p>This is why owl is <em>probably</em> better than HTML:</p>
+
+<ul>
+<li>Supports escape characters like \t and \n for easier formatting</li>
+<li>Doesn't need ugly closing tags</li>
+<li>Generates flawless HTML code in no-time</li>
+</ul>
+
+<p>The following is an example of how owl markup looks like and what HTML code it generates.
+Input (owl markup):</p>
+
+<div class="highlight highlight-c"><pre><span class="n">head</span> <span class="p">{</span>
+   <span class="n">title</span> <span class="p">{</span> <span class="n">Hello</span><span class="o">!</span> <span class="p">}</span>
+   <span class="n">link</span> <span class="p">(</span> <span class="n">rel</span> <span class="o">=</span> <span class="s">"stylesheet"</span> <span class="n">href</span> <span class="o">=</span> <span class="s">"example.css"</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">document</span> <span class="p">{</span>
+   <span class="n">h1</span> <span class="p">{</span> <span class="n">Welcome</span> <span class="n">to</span> <span class="n">the</span> <span class="n">owl</span> <span class="n">example</span> <span class="n">page</span><span class="o">!</span> <span class="p">}</span>
+   <span class="n">p</span> <span class="p">{</span>
+      <span class="n">We</span> <span class="n">hope</span> <span class="n">you</span> <span class="n">like</span> <span class="n">it</span><span class="o">!</span><span class="err">\</span><span class="n">n</span>
+      <span class="n">Visit</span> <span class="n">our</span> <span class="n">GitHub</span> <span class="nl">page</span><span class="p">:</span>
+         <span class="n">a</span> <span class="p">(</span> <span class="n">href</span> <span class="o">=</span> <span class="s">"https://gihub.com/SplittyDev/ewm"</span> <span class="p">)</span> <span class="p">{</span> <span class="n">owl</span> <span class="n">on</span> <span class="n">GitHub</span> <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Output (HTML):</p>
+
+<div class="highlight highlight-html"><pre><span class="cp">&lt;!DOCTYPE html public&gt;</span>
+
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Hello!<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"example.css"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Welcome to the owl example page!<span class="nt">&lt;/h1&gt;</span>
+
+    <span class="nt">&lt;p&gt;</span>
+      We hope you like it!<span class="nt">&lt;br&gt;</span>
+      Visit our GitHub page:
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://gihub.com/SplittyDev/ewm"</span><span class="nt">&gt;</span>owl on GitHub<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+
+<p>As you can see, owl markup is easy to write and produces correctly formatted HTML code!</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
