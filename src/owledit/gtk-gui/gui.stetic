@@ -2,76 +2,83 @@
 <stetic-interface>
   <configuration>
     <images-root-path>..</images-root-path>
+    <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/owledit.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="443 300">
+  <widget class="Gtk.Window" id="MainWindow" design-size="460 424">
     <action-group name="Default">
       <action id="FileAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">File</property>
         <property name="ShortLabel" translatable="yes">File</property>
       </action>
-      <action id="NewFileAction">
+      <action id="btnNewFile">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">New File</property>
-        <property name="ShortLabel" translatable="yes">New File</property>
+        <property name="Label" translatable="yes">New</property>
+        <property name="ShortLabel" translatable="yes">New</property>
+        <property name="StockId">gtk-new</property>
+        <signal name="Activated" handler="OnBtnNewFileActivated" />
       </action>
-      <action id="OpenFileAction">
+      <action id="btnOpenFile">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Open File</property>
-        <property name="ShortLabel" translatable="yes">Open File</property>
+        <property name="Label" translatable="yes">Open</property>
+        <property name="ShortLabel" translatable="yes">Open</property>
+        <property name="StockId">gtk-open</property>
       </action>
-      <action id="SaveAction">
+      <action id="btnSaveFile">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Save</property>
         <property name="ShortLabel" translatable="yes">Save</property>
+        <property name="StockId">gtk-save</property>
       </action>
-      <action id="SaveAsAction">
+      <action id="btnSaveFileAs">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Save as...</property>
         <property name="ShortLabel" translatable="yes">Save as...</property>
+        <property name="StockId">gtk-save-as</property>
+      </action>
+      <action id="btnExit">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="ShortLabel" translatable="yes">Exit</property>
+        <property name="StockId">gtk-quit</property>
       </action>
       <action id="BuildAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Build</property>
         <property name="ShortLabel" translatable="yes">Build</property>
       </action>
-      <action id="InvokeOwlAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Invoke owl</property>
-        <property name="ShortLabel" translatable="yes">Generate html</property>
-      </action>
-      <action id="GenerateHtmlAsAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Generate html as...</property>
-        <property name="ShortLabel" translatable="yes">Generate html as...</property>
-      </action>
-      <action id="ToolsAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Tools</property>
-        <property name="ShortLabel" translatable="yes">Tools</property>
-      </action>
-      <action id="PreviewAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Preview</property>
-        <property name="ShortLabel" translatable="yes">Preview</property>
-      </action>
-      <action id="BuildAction1">
+      <action id="mediaPlayAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Build</property>
         <property name="ShortLabel" translatable="yes">Build</property>
+        <property name="StockId">gtk-media-play</property>
       </action>
-      <action id="BuildAndPreviewAction">
+      <action id="btnPreview">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Build and Preview</property>
-        <property name="ShortLabel" translatable="yes">Build and Preview</property>
+        <property name="Label" translatable="yes">Preview</property>
+        <property name="ShortLabel" translatable="yes">Build &amp; Preview</property>
+        <property name="StockId">gtk-media-play</property>
+      </action>
+      <action id="removeAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Close</property>
+        <property name="ShortLabel" translatable="yes">Close</property>
+        <property name="StockId">gtk-remove</property>
+      </action>
+      <action id="btnQuit">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Quit</property>
+        <property name="ShortLabel" translatable="yes">Quit</property>
+        <property name="StockId">gtk-quit</property>
+        <signal name="Activated" handler="btnQuit_Activated" />
       </action>
     </action-group>
     <property name="MemberName" />
-    <property name="Title" translatable="yes">owledit</property>
+    <property name="Title" translatable="yes">owl editor</property>
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
@@ -79,20 +86,31 @@
         <property name="MemberName" />
         <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.MenuBar" id="menubar1">
+          <widget class="Gtk.HBox" id="hbox1">
             <property name="MemberName" />
-            <node name="__gtksharp_142_Stetic_Editor_ActionMenuBar" type="Menubar">
-              <node type="Menu" action="FileAction">
-                <node type="Menuitem" action="NewFileAction" />
-                <node type="Menuitem" action="OpenFileAction" />
-                <node type="Menuitem" action="SaveAction" />
-                <node type="Menuitem" action="SaveAsAction" />
-              </node>
-              <node type="Menu" action="ToolsAction">
-                <node type="Menuitem" action="BuildAction1" />
-                <node type="Menuitem" action="BuildAndPreviewAction" />
-              </node>
-            </node>
+            <property name="Spacing">6</property>
+            <child>
+              <widget class="Gtk.MenuBar" id="menu">
+                <property name="MemberName" />
+                <node name="menu" type="Menubar">
+                  <node type="Menu" action="FileAction">
+                    <node type="Menuitem" action="btnNewFile" />
+                    <node type="Menuitem" action="btnOpenFile" />
+                    <node type="Menuitem" action="btnSaveFile" />
+                    <node type="Menuitem" action="btnSaveFileAs" />
+                    <node type="Menuitem" action="btnQuit" />
+                  </node>
+                  <node type="Menu" action="BuildAction">
+                    <node type="Menuitem" action="mediaPlayAction" />
+                    <node type="Menuitem" action="btnPreview" />
+                  </node>
+                </node>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">False</property>
+              </packing>
+            </child>
           </widget>
           <packing>
             <property name="Position">0</property>
@@ -102,24 +120,47 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Notebook" id="notebook1">
+          <widget class="Gtk.VBox" id="vbox2">
             <property name="MemberName" />
-            <property name="CanFocus">True</property>
-            <property name="CurrentPage">0</property>
+            <property name="Spacing">6</property>
             <child>
-              <placeholder />
-            </child>
-            <child>
-              <widget class="Gtk.Label" id="label1">
+              <widget class="Gtk.Notebook" id="tabSource">
                 <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">untitled</property>
+                <property name="CanFocus">True</property>
+                <property name="CurrentPage">-1</property>
+                <property name="Scrollable">True</property>
+                <signal name="ChangeCurrentPage" handler="OnTabSourceChangeCurrentPage" />
               </widget>
               <packing>
-                <property name="type">tab</property>
+                <property name="Position">0</property>
+                <property name="AutoSize">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+                <property name="MemberName" />
+                <property name="ShadowType">In</property>
+                <child>
+                  <widget class="Gtk.TextView" id="txtStatus">
+                    <property name="MemberName" />
+                    <property name="ShowScrollbars">True</property>
+                    <property name="Editable">False</property>
+                    <property name="CursorVisible">False</property>
+                    <property name="Text" translatable="yes" />
+                    <property name="WrapMode">Word</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="PackType">End</property>
+                <property name="Position">1</property>
+                <property name="AutoSize">False</property>
+                <property name="Expand">False</property>
               </packing>
             </child>
           </widget>
           <packing>
+            <property name="PackType">End</property>
             <property name="Position">1</property>
             <property name="AutoSize">True</property>
           </packing>

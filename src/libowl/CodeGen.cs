@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using TidyNet;
 using System.Diagnostics;
 
-namespace owl
+namespace libowl
 {
 	public class CodeGen
 	{

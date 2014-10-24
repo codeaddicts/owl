@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace owl
+namespace libowl
 {
 	public class Tree
 	{

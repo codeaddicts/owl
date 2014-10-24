@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace owl
+namespace libowl
 {
 	public enum VerbosityLevel { silent, erroronly, warnings, basic, debug }
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C6B0714C-DCFC-4E1C-9EA2-34CB16C7DBC7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>libowl</RootNamespace>
+    <AssemblyName>libowl</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="TidyNet">
+      <HintPath>..\..\nuget\bin\TidyNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tokens\TokenAssign.cs" />
+    <Compile Include="Tokens\TokenBracketClosing.cs" />
+    <Compile Include="Tokens\TokenBracketOpening.cs" />
+    <Compile Include="Tokens\TokenComma.cs" />
+    <Compile Include="Tokens\TokenContent.cs" />
+    <Compile Include="Tokens\TokenCurlyClosing.cs" />
+    <Compile Include="Tokens\TokenCurlyOpening.cs" />
+    <Compile Include="Tokens\TokenEOF.cs" />
+    <Compile Include="Tokens\TokenEOL.cs" />
+    <Compile Include="Tokens\TokenEscape.cs" />
+    <Compile Include="Tokens\TokenIdentifier.cs" />
+    <Compile Include="Tokens\TokenParClosing.cs" />
+    <Compile Include="Tokens\TokenParOpening.cs" />
+    <Compile Include="Tokens\TokenSemicolon.cs" />
+    <Compile Include="Tokens\TokenString.cs" />
+    <Compile Include="Tokens\TokenStyleBlock.cs" />
+    <Compile Include="Beautifier.cs" />
+    <Compile Include="CodeGen.cs" />
+    <Compile Include="Lexer.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="Tree.cs" />
+    <Compile Include="Verbosity.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using libowl;
 
 namespace owl
 {
@@ -16,6 +17,9 @@ namespace owl
 			bool stdout = false;
 			bool winfix = false;
 			Verbosity.verb = VerbosityLevel.basic;
+
+			// Initialize log
+			Log.Init (Console.Out);
 
 			// Check the command-line arguments
 			for (int i = 0; i < args.Length; i++) {

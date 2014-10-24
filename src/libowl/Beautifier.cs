@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using TidyNet;
 
-namespace owl
+namespace libowl
 {
 	public static class Beautifier
 	{

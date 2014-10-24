@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace owl
+namespace libowl
 {
 	public class TokenComma : Token
 	{

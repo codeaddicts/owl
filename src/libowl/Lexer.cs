@@ -6,7 +6,7 @@ using System.Text;
 using System.Linq;
 using System.Diagnostics;
 
-namespace owl
+namespace libowl
 {
 	public partial class Lexer
 	{
@@ -15,11 +15,25 @@ namespace owl
 
 		private int pos;
 		private int line;
-		private int depth;
+		private int depth_cbr;
+		private int depth_par;
 		private int linew;
+		private bool abort;
 		private List<Token> tokens;
 
-		public enum ErrorCode { NoErrors = 0, UnexpectedToken, UnexpectedEscape, UnexpectedStringEnd, UnexpectedContentEnd }
+		public delegate void ReportSyntaxError (ErrorCode err);
+		public event ReportSyntaxError onSyntaxError;
+
+		public enum ErrorCode {
+			None = 0,
+			Abort,
+			UnexpectedToken,
+			UnexpectedEscape,
+			UnexpectedStringEnd,
+			UnexpectedContentEnd,
+			ExpectedClosingBracket,
+			ExpectedClosingParenthesis,
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="owl.Lexer"/> class.
@@ -27,14 +41,28 @@ namespace owl
 		/// <param name='filename'>
 		/// Filename.
 		/// </param>
-		public Lexer (string filename)
+		public Lexer (string filename = "")
 		{
 			pos = -1;
 			line = 1;
-			depth = 0;
+			depth_cbr = 0;
+			depth_par = 0;
 			linew = 0;
+			abort = false;
 			tokens = new List<Token> ();
 			this.filename = filename;
+		}
+
+		public void Reset ()
+		{
+			pos = -1;
+			line = 1;
+			depth_cbr = 0;
+			depth_par = 0;
+			linew = 0;
+			abort = false;
+			tokens.Clear ();
+			filename = "";
 		}
 
 		/// <summary>
@@ -77,6 +105,20 @@ namespace owl
 			linew = CalculateLineNumberWidth (source);
 		}
 
+		public void Abort ()
+		{
+			abort = true;
+		}
+
+		public void PrepareSource (string src)
+		{
+			// Replace line endings with linux-style line endings
+			source = src.Replace ("\r\n", "\n");
+
+			// Get the "length" of the line count
+			linew = CalculateLineNumberWidth (source);
+		}
+
 		public int CalculateLineNumberWidth (string source) {
 			int width = 0;
 			source.All (c => { if (c == '\n') width++; return true; });
@@ -107,6 +149,9 @@ namespace owl
 			watch.Start ();
 
 			while (pos < source.Length && Peek () != -1) {
+				if (abort)
+					return ErrorCode.Abort;
+
 				while (PeekChar () != '\n' && char.IsWhiteSpace (PeekChar ()))
 					Read ();
 
@@ -123,7 +168,7 @@ namespace owl
 				// String literals
 				else if (PeekChar () == '\"') {
 					ErrorCode err = ScanStringLiteral ();
-					if (err != ErrorCode.NoErrors)
+					if (err != ErrorCode.None)
 					{
 						watch.Stop ();
 						return err;
@@ -149,6 +194,7 @@ namespace owl
 						// Opening Parenthesis
 						case '(':
 							Read ();
+							depth_par++;
 							LogElem ("Opening Parenthesis");
 							tokens.Add (new TokenParOpening (line));
 							break;
@@ -156,18 +202,19 @@ namespace owl
 						// Closing Parenthesis
 						case ')':
 							Read ();
+							depth_par--;
 							LogElem ("Closing Parenthesis");
 							tokens.Add (new TokenParClosing (line));
 							break;
 							
 						// Opening Curly Bracket
 						case '{':
-							depth++;
 							Read ();
+							depth_cbr++;
 							LogElem ("Opening Curly Bracket");
 							tokens.Add (new TokenCurlyOpening (line));
 							ErrorCode err = ScanContent ();
-							if (err != ErrorCode.NoErrors) {
+							if (err != ErrorCode.None) {
 								watch.Stop ();
 								return err;
 							}
@@ -175,12 +222,12 @@ namespace owl
 							
 						// Closing Curly Bracket
 						case '}':
-							depth--;
 							Read ();
+							depth_cbr--;
 							LogElem ("Closing Curly Bracket");
 							tokens.Add (new TokenCurlyClosing (line));
 							ErrorCode err0 = ScanContent ();
-							if (err0 != ErrorCode.NoErrors) {
+							if (err0 != ErrorCode.None) {
 								watch.Stop ();
 								return err0;
 							}
@@ -206,7 +253,7 @@ namespace owl
 							LogElem ("Semicolon");
 							tokens.Add (new TokenSemicolon (line));
 							ErrorCode err1 = ScanContent ();
-							if (err1 != ErrorCode.NoErrors) {
+							if (err1 != ErrorCode.None) {
 								watch.Stop ();
 								return err1;
 							}
@@ -215,7 +262,7 @@ namespace owl
 						// Backslash
 						case '\\':
 							ErrorCode err2 = ScanEscape ();
-							if (err2 != ErrorCode.NoErrors) {
+							if (err2 != ErrorCode.None) {
 								watch.Stop ();
 								return err2;
 							}
@@ -231,10 +278,16 @@ namespace owl
 			}
 			tokens.Add (new TokenEOF (line));
 
+			if (depth_cbr > 0)
+				onSyntaxError (ErrorCode.ExpectedClosingBracket);
+
+			if (depth_par > 0)
+				onSyntaxError (ErrorCode.ExpectedClosingParenthesis);
+
 			watch.Stop ();
 			Log.Write ("Lexical Analysis finished after {0}ms", watch.Elapsed.Milliseconds);
 
-			return ErrorCode.NoErrors;
+			return ErrorCode.None;
 		}
 
 		public void SkipWhitespace ()
@@ -319,7 +372,7 @@ namespace owl
 			LogElem ("StringLiteral: " + sb.ToString ());
 			tokens.Add (new TokenString (sb.ToString (), line));
 
-			return ErrorCode.NoErrors;
+			return ErrorCode.None;
 		}
 
 		/// <summary>
@@ -349,7 +402,7 @@ namespace owl
 					} else if (PeekChar () == '\\') {
 						string escape = "";
 						ErrorCode err = ScanEscape (out escape);
-						if (err != ErrorCode.NoErrors)
+						if (err != ErrorCode.None)
 							return err;
 						sb.Append (escape);
 					} else {
@@ -370,7 +423,7 @@ namespace owl
 				}
 			}
 
-			return ErrorCode.NoErrors;
+			return ErrorCode.None;
 		}
 
 		public ErrorCode ScanContent ()
@@ -465,7 +518,8 @@ namespace owl
 				Log.Error ("Unexpected escape character: '{0}' at line {1}. Aborting.", PeekChar (), line);
 				return ErrorCode.UnexpectedEscape;
 			}
-			return ErrorCode.NoErrors;
+
+			return ErrorCode.None;
 		}
 
 		/// <summary>
@@ -538,7 +592,7 @@ namespace owl
 		/// </param>
 		public void LogElem (string text)
 		{
-			Log.Debug ("D:{1:00} L:{0:" + "".PadRight (linew, '0') + "} {2}", line, depth, text);
+			Log.Debug ("D:{1:00} L:{0:" + "".PadRight (linew, '0') + "} {2}", line, depth_cbr, text);
 		}
 	}
 }

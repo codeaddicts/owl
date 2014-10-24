@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace owl
+namespace libowl
 {
-	public class TokenIdentifier : Token
+	public class TokenEscape : Token
 	{
 		public readonly string value;
 
-		public TokenIdentifier (string str, int line) : base (line)
+		public TokenEscape (string str, int line) : base (line)
 		{
 			this.value = str;
 		}
