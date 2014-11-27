@@ -1,0 +1,14 @@
+digraph "src/libowl" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_68267d1309a1af8e8297ef4c3efbcdba {
+    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_68267d1309a1af8e8297ef4c3efbcdba.html"]
+  subgraph clusterdir_548d0486ad49f46581dc93d6c107bf77 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_548d0486ad49f46581dc93d6c107bf77.html"];
+    dir_548d0486ad49f46581dc93d6c107bf77 [shape=plaintext label="libowl"];
+    dir_34bab796a78160302bea29a6cb0e4348 [shape=box label="Properties" color="black" fillcolor="white" style="filled" URL="dir_34bab796a78160302bea29a6cb0e4348.html"];
+    dir_89f2c1344c47c88ac87fe553cf69bfc2 [shape=box label="Tokens" color="black" fillcolor="white" style="filled" URL="dir_89f2c1344c47c88ac87fe553cf69bfc2.html"];
+  }
+  }
+}

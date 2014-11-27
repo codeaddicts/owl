@@ -1,0 +1,9 @@
+digraph "src/libowl/Properties" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_548d0486ad49f46581dc93d6c107bf77 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="libowl" fontname="Helvetica", fontsize="10", URL="dir_548d0486ad49f46581dc93d6c107bf77.html"]
+  dir_34bab796a78160302bea29a6cb0e4348 [shape=box, label="Properties", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_34bab796a78160302bea29a6cb0e4348.html"];
+  }
+}

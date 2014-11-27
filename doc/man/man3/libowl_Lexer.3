@@ -1,0 +1,303 @@
+.TH "libowl.Lexer" 3 "Thu Nov 27 2014" "libowl" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+libowl.Lexer \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBErrorCode\fP { \fBNone\fP = 0, \fBAbort\fP, \fBUnexpectedToken\fP, \fBUnexpectedEscape\fP, \fBUnexpectedStringEnd\fP, \fBUnexpectedContentEnd\fP, \fBExpectedClosingBracket\fP, \fBExpectedClosingParenthesis\fP }"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "delegate void \fBReportSyntaxError\fP (ErrorCode err)"
+.br
+.ti -1c
+.RI "\fBLexer\fP (string filename='')"
+.br
+.RI "\fIInitializes a new instance of the owl\&.Lexer class\&. \fP"
+.ti -1c
+.RI "void \fBReset\fP ()"
+.br
+.ti -1c
+.RI "List< \fBToken\fP > \fBGetTokens\fP ()"
+.br
+.RI "\fIReturns the token list\&. \fP"
+.ti -1c
+.RI "void \fBPrepare\fP ()"
+.br
+.RI "\fIPrepare the \fBLexer\fP for scanning\&. \fP"
+.ti -1c
+.RI "void \fBAbort\fP ()"
+.br
+.ti -1c
+.RI "void \fBPrepareSource\fP (string src)"
+.br
+.ti -1c
+.RI "int \fBCalculateLineNumberWidth\fP (string source)"
+.br
+.ti -1c
+.RI "void \fBBuildTree\fP ()"
+.br
+.RI "\fIBuilds the token tree\&. \fP"
+.ti -1c
+.RI "ErrorCode \fBScan\fP ()"
+.br
+.RI "\fIScans the source for tokens\&. \fP"
+.ti -1c
+.RI "void \fBSkipWhitespace\fP ()"
+.br
+.ti -1c
+.RI "void \fBScanPreprocessorDirective\fP ()"
+.br
+.ti -1c
+.RI "string \fBScanIdentifier\fP (bool add_token=true)"
+.br
+.RI "\fIScans an identifier\&. \fP"
+.ti -1c
+.RI "ErrorCode \fBScanStringLiteral\fP ()"
+.br
+.RI "\fIScans a string literal\&. \fP"
+.ti -1c
+.RI "ErrorCode \fBScanContent\fP (out string content, bool add_token=true)"
+.br
+.RI "\fIScans content\&. \fP"
+.ti -1c
+.RI "ErrorCode \fBScanContent\fP ()"
+.br
+.ti -1c
+.RI "ErrorCode \fBScanEscape\fP ()"
+.br
+.RI "\fIScans an escape sequence\&. \fP"
+.ti -1c
+.RI "ErrorCode \fBScanEscape\fP (out string escape)"
+.br
+.RI "\fIScans an escape sequence\&. \fP"
+.ti -1c
+.RI "int \fBPeek\fP ()"
+.br
+.RI "\fIReturns the next character from the source or -1 if EOF\&. \fP"
+.ti -1c
+.RI "char \fBPeekChar\fP ()"
+.br
+.RI "\fIReturns the next character from the source or (char)0 if EOF\&. \fP"
+.ti -1c
+.RI "int \fBRead\fP ()"
+.br
+.RI "\fIReturns the next character from the source or -1 if EOF and increments the position by one\&. \fP"
+.ti -1c
+.RI "char \fBReadChar\fP ()"
+.br
+.RI "\fIReturns the next character from the source or (char)0 if EOF and increments the position by one\&. \fP"
+.ti -1c
+.RI "void \fBAppendAt\fP (string str, int pos)"
+.br
+.ti -1c
+.RI "void \fBLogElem\fP (string text)"
+.br
+.RI "\fIAdds an element to the log\&. \fP"
+.in -1c
+.SS "Events"
+
+.in +1c
+.ti -1c
+.RI "ReportSyntaxError \fBonSyntaxError\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 11 of file Lexer\&.cs\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "libowl\&.Lexer\&.Lexer (stringfilename = \fC''\fP)"
+
+.PP
+Initializes a new instance of the owl\&.Lexer class\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP Filename\&. 
+.RE
+.PP
+
+.PP
+Definition at line 44 of file Lexer\&.cs\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void libowl\&.Lexer\&.BuildTree ()"
+
+.PP
+Builds the token tree\&. 
+.PP
+Definition at line 132 of file Lexer\&.cs\&.
+.SS "List<\fBToken\fP> libowl\&.Lexer\&.GetTokens ()"
+
+.PP
+Returns the token list\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The tokens\&. 
+.RE
+.PP
+
+.PP
+Definition at line 74 of file Lexer\&.cs\&.
+.SS "void libowl\&.Lexer\&.LogElem (stringtext)"
+
+.PP
+Adds an element to the log\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItext\fP Text\&. 
+.RE
+.PP
+
+.PP
+Definition at line 593 of file Lexer\&.cs\&.
+.SS "int libowl\&.Lexer\&.Peek ()"
+
+.PP
+Returns the next character from the source or -1 if EOF\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The char\&. 
+.RE
+.PP
+
+.PP
+Definition at line 532 of file Lexer\&.cs\&.
+.SS "char libowl\&.Lexer\&.PeekChar ()"
+
+.PP
+Returns the next character from the source or (char)0 if EOF\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The char\&. 
+.RE
+.PP
+
+.PP
+Definition at line 544 of file Lexer\&.cs\&.
+.SS "void libowl\&.Lexer\&.Prepare ()"
+
+.PP
+Prepare the \fBLexer\fP for scanning\&. 
+.PP
+Definition at line 82 of file Lexer\&.cs\&.
+.SS "int libowl\&.Lexer\&.Read ()"
+
+.PP
+Returns the next character from the source or -1 if EOF and increments the position by one\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The char\&. 
+.RE
+.PP
+
+.PP
+Definition at line 559 of file Lexer\&.cs\&.
+.SS "char libowl\&.Lexer\&.ReadChar ()"
+
+.PP
+Returns the next character from the source or (char)0 if EOF and increments the position by one\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The char\&. 
+.RE
+.PP
+
+.PP
+Definition at line 571 of file Lexer\&.cs\&.
+.SS "ErrorCode libowl\&.Lexer\&.Scan ()"
+
+.PP
+Scans the source for tokens\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+An ErrorCode\&. 
+.RE
+.PP
+
+.PP
+Definition at line 144 of file Lexer\&.cs\&.
+.SS "ErrorCode libowl\&.Lexer\&.ScanContent (out stringcontent, booladd_token = \fCtrue\fP)"
+
+.PP
+Scans content\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+An ErrorCode 
+.RE
+.PP
+
+.PP
+Definition at line 384 of file Lexer\&.cs\&.
+.SS "ErrorCode libowl\&.Lexer\&.ScanEscape ()"
+
+.PP
+Scans an escape sequence\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+An ErrorCode 
+.RE
+.PP
+
+.PP
+Definition at line 441 of file Lexer\&.cs\&.
+.SS "ErrorCode libowl\&.Lexer\&.ScanEscape (out stringescape)"
+
+.PP
+Scans an escape sequence\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+An ErrorCode 
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIescape\fP Output variable for the escape sequence 
+.RE
+.PP
+
+.PP
+Definition at line 456 of file Lexer\&.cs\&.
+.SS "string libowl\&.Lexer\&.ScanIdentifier (booladd_token = \fCtrue\fP)"
+
+.PP
+Scans an identifier\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The identifier\&. 
+.RE
+.PP
+
+.PP
+Definition at line 338 of file Lexer\&.cs\&.
+.SS "ErrorCode libowl\&.Lexer\&.ScanStringLiteral ()"
+
+.PP
+Scans a string literal\&. 
+.PP
+Definition at line 358 of file Lexer\&.cs\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for libowl from the source code\&.
