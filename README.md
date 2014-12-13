@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/SplittyDev/owl.svg?branch=master)](https://travis-ci.org/SplittyDev/owl)
+[![Build Status](https://travis-ci.org/codeaddicts/owl.svg?branch=master)](https://travis-ci.org/codeaddicts/owl)
 
 What is owl?
 ----
